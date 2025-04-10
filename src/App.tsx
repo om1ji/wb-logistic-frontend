@@ -67,6 +67,15 @@ function App() {
   const [showHero, setShowHero] = useState(!isTelegramApp);
   const [showCalculator, setShowCalculator] = useState(isTelegramApp);
 
+  // Логируем статус Telegram Mini App при запуске
+  useEffect(() => {
+    console.log('Telegram Mini App status:', { 
+      isTelegramApp, 
+      hasUser: !!user,
+      userData: user || 'No user data'
+    });
+  }, [isTelegramApp, user]);
+
   useEffect(() => {
     if (isTelegramApp && window.Telegram?.WebApp) {
       const webApp = window.Telegram.WebApp;

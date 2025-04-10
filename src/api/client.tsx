@@ -97,6 +97,12 @@ export const api = {
             cargo_type = 'both';
         }
 
+        // Проверяем данные Telegram пользователя
+        const telegramUserId = formData.telegramUserId || null;
+        const telegramUsername = formData.telegramUsername || null;
+        
+        console.log('Processing Telegram user data:', { telegramUserId, telegramUsername });
+
         // Подготовим данные для отправки на сервер
         const apiData = {
             delivery: {
@@ -133,8 +139,8 @@ export const api = {
             additional_services: formData.additionalServices || [],
             pickup_address: formData.pickupAddress || '',
             telegram_data: {
-                user_id: formData.telegramUserId || null,
-                username: formData.telegramUsername || null
+                user_id: telegramUserId,
+                username: telegramUsername
             }
         };
 

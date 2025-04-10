@@ -219,6 +219,13 @@ const Calculator: React.FC<CalculatorProps> = ({ telegramUser }) => {
         .filter(Boolean)
         .join(' ');
       
+      // Логируем информацию о Telegram пользователе
+      console.log('Telegram user detected:', {
+        id: telegramUser.id,
+        username: telegramUser.username,
+        fullName
+      });
+      
       if (fullName) {
         handleFormDataChange({ clientName: fullName });
       }
@@ -309,6 +316,11 @@ const Calculator: React.FC<CalculatorProps> = ({ telegramUser }) => {
         telegramUserId: telegramUser?.id,
         telegramUsername: telegramUser?.username
       };
+      
+      console.log('Submitting order with Telegram data:', {
+        telegramUserId: telegramUser?.id,
+        telegramUsername: telegramUser?.username
+      });
       
       const response = await api.createOrder(formDataWithTelegram);
       setOrderResponse(response);

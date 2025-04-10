@@ -41,6 +41,12 @@ interface UseTelegramResult {
 
 export function useTelegram(): UseTelegramResult {
     const tg = (window.Telegram?.WebApp || {}) as TelegramWebApp;
+    const isTelegramAppActive = checkIsTelegramApp();
+    
+    // Логируем данные пользователя при каждом вызове хука
+    if (isTelegramAppActive && tg.initDataUnsafe?.user) {
+        console.log("Telegram user data from useTelegram hook:", tg.initDataUnsafe.user);
+    }
 
     const onClose = () => {
         if (typeof tg.close === 'function') {
@@ -65,6 +71,6 @@ export function useTelegram(): UseTelegramResult {
         user: tg.initDataUnsafe?.user,
         queryId: tg.initDataUnsafe?.query_id,
         initData: tg.initData,
-        isTelegramApp: checkIsTelegramApp()
+        isTelegramApp: isTelegramAppActive
     };
 } 
