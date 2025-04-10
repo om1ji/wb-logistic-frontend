@@ -19,7 +19,6 @@ import {
 } from '@mui/material';
 
 const StyledPaper = styled(Paper)`
-  padding: 2rem;
   margin-bottom: 2rem;
 `;
 
@@ -292,7 +291,7 @@ const CargoTypeStep = ({ formData, updateFormData, containerTypes, onValidationC
 
   return (
     <StyledPaper elevation={0}>
-      <Typography variant="h5" style={{ marginBottom: '1rem' }}>
+      <Typography variant="h5" style={{ marginBottom: '1rem', fontWeight: "bold" }}>
         Укажите информацию о грузе
       </Typography>
 

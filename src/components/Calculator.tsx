@@ -5,7 +5,6 @@ import DeliveryStep from './calculator-steps/DeliveryStep';
 import CargoTypeStep from './calculator-steps/CargoTypeStep';
 import AdditionalServicesStep from './calculator-steps/AdditionalServicesStep';
 import ClientDataStep from './calculator-steps/ClientDataStep';
-import Summary from './calculator-steps/Summary';
 import { api } from '../api/client';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircleOutline } from '@mui/icons-material';
@@ -84,13 +83,6 @@ interface AdditionalServicesProps {
   showErrors: boolean;
 }
 
-interface ClientDataStepProps extends StepProps {}
-
-interface SummaryProps {
-  formData: FormData & { orderPrice: string | null };
-  priceDetails?: any;
-}
-
 const CalculatorSection = styled.section`
   min-height: 100vh;
   display: flex;
@@ -101,7 +93,6 @@ const CalculatorSection = styled.section`
 `;
 
 const FormWrapper = styled(Paper)`
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -111,7 +102,6 @@ const FormWrapper = styled(Paper)`
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 2rem;
 `;
 
 const SuccessContainer = styled.div`
@@ -120,7 +110,6 @@ const SuccessContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem;
   min-height: 100vh;
 `;
 
@@ -132,7 +121,6 @@ const SuccessIcon = styled(CheckCircleOutline)`
 
 const PriceDisplay = styled(Box)`
   padding: 1rem;
-  margin-top: 1rem;
   border-top: 1px solid #eee;
   display: flex;
   justify-content: space-between;
@@ -162,10 +150,8 @@ const Calculator = () => {
   const [priceDetails, setPriceDetails] = useState<any>(null);
   
   const [formData, setFormData] = useState<FormData>({
-    // Шаг 1: Доставка
     marketplace: '',
     warehouse: '',
-    // Шаг 2: Тип груза
     cargoType: '',
     selectedTypes: [] as string[],
     quantities: {},
@@ -180,11 +166,9 @@ const Calculator = () => {
     height: '',
     weight: '',
     containerType: '',
-    // Шаг 3: Контактные данные
     clientName: '',
     phoneNumber: '',
     company: '',
-    // Шаг 4: Дополнительные услуги
     additionalServices: [] as (string | number)[],
     pickupAddress: '',
     deliveryWarehouse: ''
@@ -445,7 +429,7 @@ const Calculator = () => {
         
         {orderResponse.order.total_price && (
           <Typography variant="body1" paragraph>
-            Общая стоимость: {orderResponse.order.total_price} ₽
+            Общая стоимость: {orderResponse.order.total_price}₽
           </Typography>
         )}
 
@@ -510,10 +494,8 @@ const Calculator = () => {
             formData={formData.additionalServices || []}
             pickupAddress={formData.pickupAddress || ''}
             updateFormData={(data, shouldUpdatePrice = false) => {
-              // Проверяем, что это объект с нужными полями
               if (data && typeof data === 'object') {
                 if ('additionalServices' in data || 'pickupAddress' in data) {
-                  // Если у нас есть дополнительные услуги, но нет адреса, используем предыдущий адрес
                   let updatedPickupAddress = data.pickupAddress;
                   if (data.additionalServices?.length > 0 && (!updatedPickupAddress || updatedPickupAddress.trim() === '')) {
                     updatedPickupAddress = formData.pickupAddress || '';
@@ -555,12 +537,6 @@ const Calculator = () => {
             showErrors={showErrors}
           />
         );
-      default:
-        const summaryData = {
-          ...formData,
-          orderPrice: orderPrice
-        };
-        return <Summary formData={summaryData} priceDetails={priceDetails} />;
     }
   };
 
@@ -584,6 +560,7 @@ const Calculator = () => {
               disabled={activeStep === 0}
               onClick={handleBack}
               variant="outlined"
+              size="large"
             >
               Назад
             </Button>
@@ -592,6 +569,7 @@ const Calculator = () => {
               onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
               color="primary"
               disabled={isSubmitting}
+              size="large"
             >
               {activeStep === steps.length - 1 ? (isSubmitting ? 'Отправка...' : 'Отправить') : 'Далее'}
             </Button>

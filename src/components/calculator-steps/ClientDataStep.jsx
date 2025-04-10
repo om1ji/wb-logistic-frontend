@@ -60,7 +60,7 @@ const ClientDataStep = ({ formData, updateFormData, onValidationChange, shouldVa
 
   return (
     <StyledPaper>
-      <Typography variant="h5" style={{ marginBottom: '1.5rem' }}>Контактные данные</Typography>
+      <Typography variant="h5" style={{ marginBottom: '1.5rem', fontWeight: "bold" }}>Контактные данные</Typography>
       <Grid>
         <Grid sm={12}>
           <FormField>

@@ -42,7 +42,7 @@ const SuccessPage: React.FC = () => {
         
         {totalCost && (
           <Typography variant="body1" paragraph>
-            Общая стоимость: {totalCost} ₽
+            Общая стоимость: {totalCost}₽
           </Typography>
         )}
 

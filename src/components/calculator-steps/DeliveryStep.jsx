@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 
 const StyledPaper = styled(Paper)`
-  padding: 2rem;
   margin-bottom: 2rem;
 `;
 
@@ -111,7 +110,7 @@ const DeliveryStep = ({ formData, updateFormData, availableWarehouses, onValidat
 
   return (
     <StyledPaper elevation={0}>
-      <SectionTitle variant="h5" sx={{mb: 4}}>
+      <SectionTitle variant="h5" fontWeight={"bold"} sx={{mb: 4}}>
         Выберите маркетплейс, склад и дату доставки
       </SectionTitle>
 

@@ -16,8 +16,6 @@ import {
 import { api } from '../../api/client';
 
 const StyledPaper = styled(Paper)`
-  padding: 2rem;
-  margin-bottom: 2rem;
 `;
 
 const SectionTitle = styled(Typography)`
@@ -51,7 +49,6 @@ const ServiceLabel = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding-right: 16px;
 `;
 
 const ServiceName = styled.span`
@@ -171,7 +168,7 @@ const AdditionalServicesStep = ({ formData, pickupAddress = '', updateFormData, 
 
   return (
     <StyledPaper elevation={0}>
-      <SectionTitle variant="h4">
+      <SectionTitle variant="h5" style={{fontWeight: "bold"}} sx={{mb: 2}}>
         Дополнительные услуги
       </SectionTitle>
 
@@ -205,8 +202,6 @@ const AdditionalServicesStep = ({ formData, pickupAddress = '', updateFormData, 
               ))}
             </FormGroup>
           </FormControl>
-          
-          {index < serviceGroups.length - 1 && <Divider style={{ marginTop: '1rem' }} />}
         </Box>
       ))}
 
