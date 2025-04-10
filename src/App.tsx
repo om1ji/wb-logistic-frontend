@@ -6,7 +6,7 @@ import { Fade } from '@mui/material'
 import styled from 'styled-components'
 import Calculator from './components/Calculator'
 import SuccessPage from './components/SuccessPage'
-// import { useTelegram } from './hooks/useTelegram'
+import { useTelegram } from './hooks/useTelegram'
 import './App.css'
 
 const MainContent = styled.main`
@@ -62,15 +62,30 @@ const CalculateButton = styled.button`
 `
 
 function App() {
-  // const { tg } = useTelegram();
+  const { tg, user, isTelegramApp } = useTelegram();
   const [darkMode, setDarkMode] = useState(false)
-  const [showHero, setShowHero] = useState(true);
-  const [showCalculator, setShowCalculator] = useState(false);
+  const [showHero, setShowHero] = useState(!isTelegramApp);
+  const [showCalculator, setShowCalculator] = useState(isTelegramApp);
 
-  // useEffect(() => {
-  //   tg.ready();
-  //   tg.expand();
-  // }, [tg]);
+  useEffect(() => {
+    if (isTelegramApp && window.Telegram?.WebApp) {
+      const webApp = window.Telegram.WebApp;
+      webApp.ready?.();
+      webApp.expand?.();
+      
+      // Логирование информации о пользователе для отладки
+      console.log("Telegram user info:", user);
+      console.log("Telegram init data:", webApp.initData);
+      console.log("Telegram theme params:", webApp.themeParams);
+      
+      // Адаптируем интерфейс для Telegram
+      if (webApp.themeParams) {
+        document.documentElement.style.setProperty('--tg-theme-bg-color', webApp.themeParams.bg_color || '#fff');
+        document.documentElement.style.setProperty('--tg-theme-text-color', webApp.themeParams.text_color || '#000');
+        document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', webApp.themeParams.secondary_bg_color || '#f5f5f5');
+      }
+    }
+  }, [isTelegramApp, user]);
 
   const handleCalculateClick = () => {
     setShowHero(false);
@@ -160,14 +175,14 @@ function App() {
             {showCalculator && (
               <Fade in={showCalculator} timeout={300}>
                 <div>
-                  <Calculator />
+                  <Calculator telegramUser={user} />
                 </div>
               </Fade>
             )}
             
             {!showHero && !showCalculator && (
               <Routes>
-                <Route path="/" element={<Calculator />} />
+                <Route path="/" element={<Calculator telegramUser={user} />} />
                 <Route path="/success" element={<SuccessPage />} />
               </Routes>
             )}

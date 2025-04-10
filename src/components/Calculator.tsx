@@ -83,6 +83,18 @@ interface AdditionalServicesProps {
   showErrors: boolean;
 }
 
+interface TelegramUser {
+  id?: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  language_code?: string;
+}
+
+interface CalculatorProps {
+  telegramUser?: TelegramUser;
+}
+
 const CalculatorSection = styled.section`
   min-height: 100vh;
   display: flex;
@@ -134,7 +146,7 @@ const steps = [
   'Данные клиента'
 ];
 
-const Calculator = () => {
+const Calculator: React.FC<CalculatorProps> = ({ telegramUser }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ open: false, severity: 'success' as 'success' | 'error', message: '' });
@@ -198,6 +210,20 @@ const Calculator = () => {
 
     fetchData();
   }, []);
+
+  // Если есть данные пользователя Telegram, автоматически подставляем их в форму
+  useEffect(() => {
+    if (telegramUser) {
+      // Формируем имя пользователя из first_name и last_name, если они доступны
+      const fullName = [telegramUser.first_name, telegramUser.last_name]
+        .filter(Boolean)
+        .join(' ');
+      
+      if (fullName) {
+        handleFormDataChange({ clientName: fullName });
+      }
+    }
+  }, [telegramUser]);
 
   useEffect(() => {
     setValidateStep(true);
@@ -277,7 +303,14 @@ const Calculator = () => {
     try {
       setIsSubmitting(true);
       
-      const response = await api.createOrder(formData);
+      // Добавляем данные из Telegram, если они доступны
+      const formDataWithTelegram = {
+        ...formData,
+        telegramUserId: telegramUser?.id,
+        telegramUsername: telegramUser?.username
+      };
+      
+      const response = await api.createOrder(formDataWithTelegram);
       setOrderResponse(response);
       
       navigate('/success', {

@@ -131,7 +131,11 @@ export const api = {
                 email: formData.email || ''
             },
             additional_services: formData.additionalServices || [],
-            pickup_address: formData.pickupAddress || ''
+            pickup_address: formData.pickupAddress || '',
+            telegram_data: {
+                user_id: formData.telegramUserId || null,
+                username: formData.telegramUsername || null
+            }
         };
 
         console.log("Creating order with data:", apiData);
