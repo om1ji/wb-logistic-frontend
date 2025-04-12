@@ -8,10 +8,11 @@ import Calculator from './components/Calculator'
 import SuccessPage from './components/SuccessPage'
 import { useTelegram } from './hooks/useTelegram'
 import './App.css'
+import './app-theme.css'
 
 const MainContent = styled.main`
-  background-color: var(--tg-theme-bg-color, #fff);
-  color: var(--tg-theme-text-color, #000);
+  background-color: white;
+  color: #333333;
   height: 100vh;
 `
 
@@ -67,7 +68,6 @@ function App() {
   const [showHero, setShowHero] = useState(!isTelegramApp);
   const [showCalculator, setShowCalculator] = useState(isTelegramApp);
 
-  // Логируем статус Telegram Mini App при запуске
   useEffect(() => {
     console.log('Telegram Mini App status:', { 
       isTelegramApp, 
@@ -82,17 +82,8 @@ function App() {
       webApp.ready?.();
       webApp.expand?.();
       
-      // Логирование информации о пользователе для отладки
-      console.log("Telegram user info:", user);
-      console.log("Telegram init data:", webApp.initData);
-      console.log("Telegram theme params:", webApp.themeParams);
-      
-      // Адаптируем интерфейс для Telegram
-      if (webApp.themeParams) {
-        document.documentElement.style.setProperty('--tg-theme-bg-color', webApp.themeParams.bg_color || '#fff');
-        document.documentElement.style.setProperty('--tg-theme-text-color', webApp.themeParams.text_color || '#000');
-        document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', webApp.themeParams.secondary_bg_color || '#f5f5f5');
-      }
+      document.body.style.setProperty('--tg-theme-bg-color', '#FFFFFF');
+      document.body.style.setProperty('--tg-theme-text-color', '#000000');
     }
   }, [isTelegramApp, user]);
 

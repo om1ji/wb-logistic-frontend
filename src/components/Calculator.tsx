@@ -8,6 +8,7 @@ import ClientDataStep from './calculator-steps/ClientDataStep';
 import { api } from '../api/client';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircleOutline } from '@mui/icons-material';
+import AppButton from './AppButton';
 
 interface Warehouse {
     id: number;
@@ -601,15 +602,15 @@ const Calculator: React.FC<CalculatorProps> = ({ telegramUser }) => {
           )}
 
           <ButtonGroup>
-            <Button
+            <AppButton
               disabled={activeStep === 0}
               onClick={handleBack}
               variant="outlined"
               size="large"
             >
               Назад
-            </Button>
-            <Button
+            </AppButton>
+            <AppButton
               variant="contained"
               onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
               color="primary"
@@ -617,7 +618,7 @@ const Calculator: React.FC<CalculatorProps> = ({ telegramUser }) => {
               size="large"
             >
               {activeStep === steps.length - 1 ? (isSubmitting ? 'Отправка...' : 'Отправить') : 'Далее'}
-            </Button>
+            </AppButton>
           </ButtonGroup>
         </FormWrapper>
         

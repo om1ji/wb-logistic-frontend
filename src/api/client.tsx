@@ -90,11 +90,11 @@ export const api = {
     // Создание заказа
     async createOrder(formData): Promise<OrderResponse> {
         // Определяем тип груза
-        let cargo_type = 'box';
+        let cargo_type = 'Коробки';
         if (formData.selectedTypes?.includes('Паллета') && !formData.selectedTypes?.includes('Коробка')) {
-            cargo_type = 'pallet';
+            cargo_type = 'Паллеты';
         } else if (formData.selectedTypes?.includes('Паллета') && formData.selectedTypes?.includes('Коробка')) {
-            cargo_type = 'both';
+            cargo_type = 'Коробки и паллеты';
         }
 
         // Проверяем данные Telegram пользователя
@@ -134,14 +134,12 @@ export const api = {
                 name: formData.clientName || '',
                 phone: formData.phoneNumber || '',
                 company: formData.company || '',
-                email: formData.email || ''
+                email: formData.email || '',
+                user_id: telegramUserId || '',
+                user_name: telegramUsername || ''
             },
             additional_services: formData.additionalServices || [],
             pickup_address: formData.pickupAddress || '',
-            telegram_data: {
-                user_id: telegramUserId,
-                username: telegramUsername
-            }
         };
 
         console.log("Creating order with data:", apiData);
